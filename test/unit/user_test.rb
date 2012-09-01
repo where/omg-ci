@@ -17,5 +17,15 @@ class UserTest < ActiveSupport::TestCase
     assert user.admin?
     assert !user.user?
   end
+
+  test "create user" do
+    role = "admin"
+    email = "omg@omgmail.com"
+    password = UUID.generate(:compact)
+    user = User.create_user(email, password, role)
+    assert user.is_a?(User)
+    assert user.persisted?
+    assert user.valid_password?(password) 
+  end
 end
 

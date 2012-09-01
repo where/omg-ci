@@ -7,6 +7,7 @@ gem 'rails', '3.2.8'
 
 gem 'sqlite3'
 gem 'devise'
+gem 'uuid'
 
 group :test do
   gem 'factory_girl_rails'

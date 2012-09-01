@@ -13,4 +13,15 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.create_user(email, password, role)
+    user = User.new(:email => email,
+      :password => password,
+      :password_confirmation => password,
+    )
+    user.role = role
+    user.save
+
+    user
+  end
+
 end
