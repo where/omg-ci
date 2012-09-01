@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me
 
   ROLES = ['user', 'admin']
-  validates :role, :inclusion => {:in => ROLES}
+  validates :role, :inclusion => {:in => ROLES}, :allow_nil => true
 
   ROLES.each do |role|
     define_method "#{role}?" do

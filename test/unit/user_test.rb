@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  should_not allow_value(nil).for(:role)    
+  should allow_value(nil).for(:role)    
   should allow_value("admin").for(:role)
   should allow_value("user").for(:role)
   should_not allow_value("omg").for(:role)
