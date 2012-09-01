@@ -4,11 +4,28 @@ require 'rails/test_help'
 require 'shoulda'
 
 class ActiveSupport::TestCase
-  # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
-  #
-  # Note: You'll currently still have to declare fixtures explicitly in integration tests
-  # -- they do not yet inherit this setting
-  fixtures :all
-
-  # Add more helper methods to be used by all tests here...
 end
+
+class ActionController::TestCase 
+  include Devise::TestHelpers
+
+  def setup_bogus_controller_routes!
+    begin
+      _routes = Rails.application.routes
+      _routes.disable_clear_and_finalize = true
+      _routes.clear!
+      Rails.application.routes_reloader.paths.each{ |path| load(path) }
+      _routes.draw do
+        match '/:controller(/:action(/:id))'
+      end
+      ActiveSupport.on_load(:action_controller) { _routes.finalize! }
+    ensure
+      _routes.disable_clear_and_finalize = false
+    end
+  end
+
+  def teardown_bogus_controller_routes!
+    Rails.application.reload_routes!
+  end 
+end 
+
