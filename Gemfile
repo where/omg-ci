@@ -8,6 +8,8 @@ gem 'rails', '3.2.8'
 gem 'sqlite3'
 gem 'devise'
 gem 'uuid'
+gem 'haml', '~> 3.2.0.alpha.10' # latest released doesn't play well with rails
+gem 'sass'
 
 group :test do
   gem 'factory_girl_rails'
