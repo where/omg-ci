@@ -11,6 +11,8 @@ gem 'devise'
 group :test do
   gem 'factory_girl_rails'
   gem 'spin'
+  gem 'shoulda', :require => false
+  gem 'shoulda-matchers'
 end
 
 # Gems used only for assets and not required
