@@ -12,6 +12,7 @@ gem 'uuid'
 gem 'haml', '~> 3.2.0.alpha.10' # latest released doesn't play well with rails
 gem 'simple_form'
 gem 'sass'
+gem 'omg_pull_request', :path => '../omg_pull_request'
 
 group :test do
   gem 'factory_girl_rails'
