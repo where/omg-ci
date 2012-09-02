@@ -5,6 +5,7 @@ OmgCi::Application.routes.draw do
   end
 
   resources :suites, :only => [:edit, :destroy, :update]
+  resources :suite_runs, :only => [:show]
 
   namespace :admin do
     resources :users, :only => [:index, :edit, :update]

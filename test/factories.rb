@@ -18,4 +18,9 @@ FactoryGirl.define do
     command "echo omg"
     branch "master"
   end
+
+  factory :suite_run do
+    status "success"
+    sha "omg"
+  end
 end

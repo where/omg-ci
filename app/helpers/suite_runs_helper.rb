@@ -1,0 +1,2 @@
+module SuiteRunsHelper
+end

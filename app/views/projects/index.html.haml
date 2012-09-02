@@ -13,7 +13,7 @@
           %ul
             - suite.suite_runs.reverse.each do |run|
               %li
-                = "#{run.id} - #{run.status}"
+                = link_to "#{run.id} - #{run.status}", suite_run_path(run)
     
           
 
