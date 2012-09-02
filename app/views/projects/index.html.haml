@@ -11,7 +11,7 @@
           = link_to 'edit', edit_suite_path(suite)
           = link_to 'destroy', suite_path(suite), :method => :delete
           %ul
-            - suite.suite_runs.reverse.each do |run|
+            - suite.suite_runs.reverse[0, 10].each do |run|
               %li
                 = link_to "#{run.id} - #{run.status}", suite_run_path(run)
     
