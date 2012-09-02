@@ -10,6 +10,7 @@ class Suite < ActiveRecord::Base
   validates :command, :presence => true
   validates :branch,  :presence => true
   validates :trigger, :inclusion => {:in => TRIGGERS}
+  validates :trigger_length, :numericality => {:greater_than => 0, :allow_blank => true}, :allow_blank => true
 
   def execute!
     run = self.suite_runs.create!(:sha => current_sha,

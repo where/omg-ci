@@ -19,6 +19,10 @@ class SuiteTest < ActiveSupport::TestCase
   should_not allow_value(nil).for(:trigger)
   should_not allow_value('omg').for(:trigger)
 
+  should_not allow_value(-1).for(:trigger_length)
+  should_not allow_value(0).for(:trigger_length)
+  should_not allow_value('omg').for(:trigger_length)
+
 
   test "execute!" do
     suite = FactoryGirl.create(:suite)
