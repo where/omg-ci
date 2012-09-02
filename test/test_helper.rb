@@ -2,8 +2,15 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'shoulda'
+require 'mocha'
 
+class MockGit
+end
 class ActiveSupport::TestCase
+  setup do
+    Git.expects(:clone).at_least(0).returns(MockGit.new)
+    FileUtils.expects(:rm_rf).at_least(0)
+  end
 end
 
 class ActionController::TestCase 

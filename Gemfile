@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.8'
+gem 'git'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -17,6 +18,7 @@ group :test do
   gem 'spin'
   gem 'shoulda', :require => false
   gem 'shoulda-matchers'
+  gem 'mocha', :require => false
 end
 
 # Gems used only for assets and not required
