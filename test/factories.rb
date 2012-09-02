@@ -15,5 +15,7 @@ FactoryGirl.define do
     name "omg"
     suite_type "Rails"
     association :project
+    command "echo omg"
+    branch "master"
   end
 end

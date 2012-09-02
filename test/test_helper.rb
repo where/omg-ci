@@ -5,11 +5,19 @@ require 'shoulda'
 require 'mocha'
 
 class MockGit
+  def log
+    [
+      '6b236a6dd425226841c43293766d9420b84d0beb',
+      'b0c78451588c83a62dfb651ed1655e424130f438'
+    ]
+  end
 end
 class ActiveSupport::TestCase
   setup do
     Git.expects(:clone).at_least(0).returns(MockGit.new)
     FileUtils.expects(:rm_rf).at_least(0)
+    Suite.any_instance.expects(:setup_git).returns("Git Stuff").at_least(0)
+    Suite.any_instance.expects(:git).returns(MockGit.new).at_least(0)
   end
 end
 

@@ -32,7 +32,9 @@ class SuitesControllerTest < ActionController::TestCase
     assert_difference 'project.suites.count' do
       post :create, :project_id => project.id, :suite => {
         :name => 'Regular',
-        :suite_type => 'Rails'
+        :suite_type => 'Rails',
+        :command => 'echo hi',
+        :branch => 'master'
       }
     end
 
