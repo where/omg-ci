@@ -1,15 +1,15 @@
 class Suite < ActiveRecord::Base
   belongs_to :project
   has_many :suite_runs
-  attr_accessible :name, :suite_type, :command, :branch
+  attr_accessible :name, :suite_type, :command, :branch, :trigger, :trigger_length, :trigger_metric
 
-  TYPES = ['Ruby', 'Rails']
+  TRIGGERS = ['commit', 'time']
 
-  validates :suite_type, :inclusion => {:in => TYPES}
   validates :name,    :presence => true
   validates :project, :presence => true
   validates :command, :presence => true
   validates :branch,  :presence => true
+  validates :trigger, :inclusion => {:in => TRIGGERS}
 
   def execute!
     run = self.suite_runs.create!(:sha => current_sha,

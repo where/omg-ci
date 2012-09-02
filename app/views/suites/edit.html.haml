@@ -1,6 +1,9 @@
 =simple_form_for current_suite do |f|
   = f.input :name
-  = f.input :suite_type, :as => :select, :collection => Suite::TYPES
   = f.input :command
   = f.input :branch
+  = f.input :trigger, :as => :select, :collection => Suite::TRIGGERS
+  = f.input :trigger_length, :wrapper_html => {:class => 'time_only'}
+  = f.input :trigger_metric, :wrapper_html => {:class => 'time_only'}
+ 
   = f.submit

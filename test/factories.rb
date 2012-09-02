@@ -13,10 +13,10 @@ FactoryGirl.define do
 
   factory :suite do
     name "omg"
-    suite_type "Rails"
     association :project
     command "echo omg"
     branch "master"
+    trigger 'commit'
   end
 
   factory :suite_run do

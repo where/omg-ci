@@ -1,8 +1,10 @@
 =simple_form_for @suite, :url => project_suites_path(current_project) do |f|
 
   = f.input :name
-  = f.input :suite_type, :as => :select, :collection => Suite::TYPES
   = f.input :command
   = f.input :branch
+  = f.input :trigger, :as => :select, :collection => Suite::TRIGGERS
+  = f.input :trigger_length
+  = f.input :trigger_metric
  
   = f.submit

@@ -32,9 +32,9 @@ class SuitesControllerTest < ActionController::TestCase
     assert_difference 'project.suites.count' do
       post :create, :project_id => project.id, :suite => {
         :name => 'Regular',
-        :suite_type => 'Rails',
         :command => 'echo hi',
-        :branch => 'master'
+        :branch => 'master',
+        :trigger => 'time'
       }
     end
 
@@ -43,7 +43,6 @@ class SuitesControllerTest < ActionController::TestCase
     suite = Suite.last
 
     assert_equal 'Regular', suite.name
-    assert_equal 'Rails', suite.suite_type
   end
 
   test "create validation error" do
@@ -53,7 +52,6 @@ class SuitesControllerTest < ActionController::TestCase
     assert_no_difference 'project.suites.count' do
       post :create, :project_id => project.id, :suite => {
         :name => '',
-        :suite_type => ''
       }
     end
 

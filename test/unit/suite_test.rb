@@ -6,11 +6,6 @@ class SuiteTest < ActiveSupport::TestCase
   should allow_value("omg").for(:name)
   should_not allow_value(nil).for(:name)
 
-  should allow_value("Rails").for(:suite_type)
-  should allow_value("Ruby").for(:suite_type)
-  should_not allow_value("omg").for(:suite_type)
-  should_not allow_value(nil).for(:suite_type)
-
   should_not allow_value(nil).for(:project)
 
   should_not allow_value(nil).for(:command)
@@ -18,6 +13,12 @@ class SuiteTest < ActiveSupport::TestCase
 
   should_not allow_value(nil).for(:branch)
   should allow_value("master").for(:branch)
+
+  should allow_value("commit").for(:trigger)
+  should allow_value("time").for(:trigger)
+  should_not allow_value(nil).for(:trigger)
+  should_not allow_value('omg').for(:trigger)
+
 
   test "execute!" do
     suite = FactoryGirl.create(:suite)
