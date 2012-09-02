@@ -34,7 +34,7 @@ class SuitesControllerTest < ActionController::TestCase
         :name => 'Regular',
         :command => 'echo hi',
         :branch => 'master',
-        :trigger => 'time'
+        :trigger => 'commit'
       }
     end
 

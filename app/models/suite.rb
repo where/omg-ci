@@ -4,13 +4,16 @@ class Suite < ActiveRecord::Base
   attr_accessible :name, :suite_type, :command, :branch, :trigger, :trigger_length, :trigger_metric
 
   TRIGGERS = ['commit', 'time']
+  TRIGGER_METRICS = ['hours', 'minutes']
 
   validates :name,    :presence => true
   validates :project, :presence => true
   validates :command, :presence => true
   validates :branch,  :presence => true
   validates :trigger, :inclusion => {:in => TRIGGERS}
-  validates :trigger_length, :numericality => {:greater_than => 0, :allow_blank => true}, :allow_blank => true
+  validates :trigger_length, :numericality => {:greater_than => 0}, :allow_blank => true
+  validates :trigger_metric, :inclusion => {:in => TRIGGER_METRICS}, :allow_blank => true
+  validate :trigger_length_and_metric, :if => :time_trigger?
 
   def execute!
     run = self.suite_runs.create!(:sha => current_sha,
@@ -39,7 +42,19 @@ class Suite < ActiveRecord::Base
     @current_sha ||= git.log.first
   end
 
+  TRIGGERS.each do |trig|
+    define_method "#{trig}_trigger?" do
+      self.trigger == trig
+    end
+  end
+
   private
+
+  def trigger_length_and_metric
+    self.errors.add(:trigger_metric, 'cannot be blank') if self.trigger_metric.blank?
+    self.errors.add(:trigger_length, 'cannot be blank') if self.trigger_length.blank?
+  end
+
   def git
     return @git if @git
     @git = Git.open(Stage.dir(self.project.name))

@@ -23,6 +23,10 @@ class SuiteTest < ActiveSupport::TestCase
   should_not allow_value(0).for(:trigger_length)
   should_not allow_value('omg').for(:trigger_length)
 
+  should_not allow_value("omg").for(:trigger_metric)
+  should allow_value("minutes").for(:trigger_metric)
+  should allow_value("hours").for(:trigger_metric)
+
 
   test "execute!" do
     suite = FactoryGirl.create(:suite)
@@ -49,6 +53,26 @@ class SuiteTest < ActiveSupport::TestCase
 
     Rails.cache.delete(suite.cache_key)
     assert suite.needs_to_run?
+  end
+
+  test "validate if time trigger needs trigger_length and trigger_metric" do
+    suite = FactoryGirl.build(:suite, :trigger => 'time',
+      :trigger_length => nil, :trigger_metric => nil)
+
+    assert suite.invalid?
+
+    suite.trigger_length = 10
+    suite.trigger_metric = 'hours'
+    assert suite.valid?
+
+    suite.trigger_length = nil
+    assert suite.invalid?
+    assert ! suite.errors[:trigger_length].blank?
+
+    suite.trigger_length = 10
+    suite.trigger_metric = nil
+    assert suite.invalid?
+    assert ! suite.errors[:trigger_metric].blank?
   end
 
 end

@@ -4,7 +4,7 @@
   = f.input :command
   = f.input :branch
   = f.input :trigger, :as => :select, :collection => Suite::TRIGGERS
-  = f.input :trigger_length
-  = f.input :trigger_metric
+  = f.input :trigger_length, :wrapper_html => {:class => 'time_only'}
+  = f.input :trigger_metric, :as => :select, :collection => Suite::TRIGGER_METRICS, :wrapper_html => {:class => 'time_only'}
  
   = f.submit
