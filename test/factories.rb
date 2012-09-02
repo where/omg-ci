@@ -10,4 +10,10 @@ FactoryGirl.define do
     password_confirmation "lollol"
     role "user"
   end
+
+  factory :suite do
+    name "omg"
+    suite_type "Rails"
+    association :project
+  end
 end

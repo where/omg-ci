@@ -1,0 +1,4 @@
+=simple_form_for current_suite do |f|
+  = f.input :name
+  = f.input :suite_type, :as => :select, :collection => Suite::TYPES
+  = f.submit

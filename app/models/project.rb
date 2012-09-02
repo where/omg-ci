@@ -5,6 +5,8 @@ class Project < ActiveRecord::Base
   validates :git_repo, :presence => true
   before_create :clone
   before_destroy :remove_repo
+   
+  has_many :suites
 
   private
 

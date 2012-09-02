@@ -1,10 +1,16 @@
-%table
-  - @projects.each do |project|
-    %tr
-      %td
-        = project.name
-      %td
-        = link_to 'destroy', project_path(project), :method => :delete
+%ul
+- @projects.each do |project|
+  %li
+    = project.name
+    = link_to 'destroy', project_path(project), :method => :delete
+    = link_to 'new suite', new_project_suite_path(project)
+    %ul
+      - project.suites.each do |suite|
+        %li
+          = suite.name
+          = link_to 'edit', edit_suite_path(suite)
+          = link_to 'destroy', suite_path(suite), :method => :delete
+          
 
 %br
 %br

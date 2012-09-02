@@ -1,0 +1,5 @@
+=simple_form_for @suite, :url => project_suites_path(current_project) do |f|
+
+  = f.input :name
+  = f.input :suite_type, :as => :select, :collection => Suite::TYPES
+  = f.submit

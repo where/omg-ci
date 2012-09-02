@@ -6,6 +6,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   should allow_value("git://git.git").for(:git_repo)
   should_not allow_value(nil).for(:git_repo)
+  should have_many :suites
 
   test "before create clones" do
     Git.expects(:clone).once
