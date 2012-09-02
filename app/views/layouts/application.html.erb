@@ -8,13 +8,25 @@
 </head>
 <body>
 
+  <%= link_to 'Omg! CI!', root_url, :style => 'float:left; width:100px;' %>
   <% if current_user %>
-    Logged In As: <%= current_user.email %>, <%= link_to 'sign_out', destroy_user_session_path, :method => :delete %>
+    <% if current_user.admin? %>
+      <div style="float:left;width:500px">
+        <b>Admin Stuff:</b>
+        <%= link_to 'Admin Users', admin_users_path %>
+      </div>
+    <% end %>
+    <div style="float:right;">
+      <%= current_user.email %> <%= link_to 'sign_out', destroy_user_session_path, :method => :delete %>
+    </div>
+    <div style="clear:both;"></div>
   <% else %>
     <%= link_to 'sign_in', new_user_session_path %>
   <% end %>
-  <hr />
+  <hr style="clear:both;" />
+  <div data-pjax-container>
 <%= yield %>
+</div>
 
 </body>
 </html>
