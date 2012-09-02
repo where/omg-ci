@@ -16,7 +16,7 @@ class ActiveSupport::TestCase
   setup do
     Git.expects(:clone).at_least(0).returns(MockGit.new)
     FileUtils.expects(:rm_rf).at_least(0)
-    Suite.any_instance.expects(:setup_git).returns("Git Stuff").at_least(0)
+    Suite.any_instance.expects(:run_suite).returns({:success => true, :result => "result stuff"}).at_least(0)
     Suite.any_instance.expects(:git).returns(MockGit.new).at_least(0)
   end
 end

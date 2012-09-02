@@ -2,6 +2,7 @@ require 'test_helper'
 
 class SuiteTest < ActiveSupport::TestCase
   should belong_to :project
+  should have_many :suite_runs
   should allow_value("omg").for(:name)
   should_not allow_value(nil).for(:name)
 
@@ -20,9 +21,17 @@ class SuiteTest < ActiveSupport::TestCase
 
   test "execute!" do
     suite = FactoryGirl.create(:suite)
-    suite.expects(:run).once.returns({:success =>true, :result => 'omg stuff'})
+    suite.expects(:run_suite).once.returns({:success =>true, :result => 'omg stuff'})
  
-    suite.execute!
+    assert_difference 'suite.suite_runs.count' do
+      suite.execute!
+    end
+
+    run = SuiteRun.last
+    assert_equal suite.current_sha, run.sha
+    assert run.result.include?(run.sha)
+    assert run.result.include?("omg stuff")
+    assert run.success?
   end
 
   test "needs_to_run?" do

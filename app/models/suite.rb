@@ -1,5 +1,6 @@
 class Suite < ActiveRecord::Base
   belongs_to :project
+  has_many :suite_runs
   attr_accessible :name, :suite_type, :command, :branch
 
   TYPES = ['Ruby', 'Rails']
@@ -11,9 +12,14 @@ class Suite < ActiveRecord::Base
   validates :branch,  :presence => true
 
   def execute!
+    run = self.suite_runs.create!(:sha => current_sha,
+      :status => 'running')
     note = "Running: #{current_sha}"
-    test_results = run
+    tr = run_suite
     mark_executed!
+    notes = [note, tr[:result]].join("\n")
+    run.update_attributes!(:status => tr[:success] ? 'success' : 'failed',
+      :result => notes)
   end
 
   def needs_to_run?
@@ -28,12 +34,11 @@ class Suite < ActiveRecord::Base
     "Suite::#{self.id}"
   end
 
-  private
-
   def current_sha
     @current_sha ||= git.log.first
   end
 
+  private
   def git
     return @git if @git
     @git = Git.open(Stage.dir(self.project.name))
@@ -43,7 +48,7 @@ class Suite < ActiveRecord::Base
     @git
   end
 
-  def run
+  def run_suite
     stage_dir = Stage.dir(self.project.name)
     Bundler.with_clean_env do
       cmd = "cd #{stage_dir} && #{self.command}"
@@ -51,7 +56,7 @@ class Suite < ActiveRecord::Base
 
       exit_code = $?.to_i
       success = exit_code == 0
-      {:success => success, :result => result}
+      return {:success => success, :result => result}
     end
   end
 end
