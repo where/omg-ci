@@ -45,7 +45,7 @@ class SuiteTest < ActiveSupport::TestCase
 
   test "needs_to_run?" do
     Rails.cache.clear
-    suite = FactoryGirl.create(:suite)
+    suite = FactoryGirl.create(:suite, :trigger => 'commit')
     assert suite.needs_to_run?
 
     suite.execute!
@@ -53,6 +53,18 @@ class SuiteTest < ActiveSupport::TestCase
 
     Rails.cache.delete(suite.cache_key)
     assert suite.needs_to_run?
+
+    Rails.cache.clear
+    suite = FactoryGirl.create(:suite, :trigger => 'time', :trigger_length => 2, :trigger_metric => 'minutes')
+
+    assert suite.needs_to_run?
+
+    suite.execute!
+    assert ! suite.needs_to_run?
+
+    Timecop.freeze(Time.now + 10.minutes) do
+      assert suite.needs_to_run?
+    end
   end
 
   test "validate if time trigger needs trigger_length and trigger_metric" do
@@ -73,6 +85,15 @@ class SuiteTest < ActiveSupport::TestCase
     suite.trigger_metric = nil
     assert suite.invalid?
     assert ! suite.errors[:trigger_metric].blank?
+  end
+
+  test "trigger time" do
+    assert_nil Suite.new.trigger_delta
+    suite = Suite.new(:trigger_length => 2, :trigger_metric => 'minutes')
+    assert_equal 2.minutes, suite.trigger_delta
+
+    suite = Suite.new(:trigger_length => 2, :trigger_metric => 'hours')
+    assert_equal 2.hours, suite.trigger_delta
   end
 
 end

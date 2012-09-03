@@ -27,11 +27,22 @@ class Suite < ActiveRecord::Base
   end
 
   def needs_to_run?
-    current_sha.to_s != Rails.cache.read(cache_key).to_s
+    if commit_trigger?
+      current_sha.to_s != Rails.cache.read(cache_key).to_s
+    else
+      last_run = Rails.cache.read(cache_key)
+      return true unless last_run && last_run.is_a?(Time)
+
+      (last_run + trigger_delta) < Time.now 
+    end
   end
 
   def mark_executed!
-    Rails.cache.write(cache_key, current_sha)
+    if commit_trigger?
+      Rails.cache.write(cache_key, current_sha)
+    else
+      Rails.cache.write(cache_key, Time.now)
+    end
   end
 
   def cache_key
@@ -46,6 +57,13 @@ class Suite < ActiveRecord::Base
     define_method "#{trig}_trigger?" do
       self.trigger == trig
     end
+  end
+
+  def trigger_delta
+    return nil if ! TRIGGER_METRICS.include?(self.trigger_metric)
+    return nil if self.trigger_length.blank?
+
+    self.trigger_length.to_i.send(self.trigger_metric)
   end
 
   private

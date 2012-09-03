@@ -21,6 +21,7 @@ group :test do
   gem 'shoulda', :require => false
   gem 'shoulda-matchers'
   gem 'mocha', :require => false
+  gem 'timecop'
 end
 
 # Gems used only for assets and not required
