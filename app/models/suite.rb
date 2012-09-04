@@ -86,7 +86,10 @@ class Suite < ActiveRecord::Base
     stage_dir = Stage.dir(self.project.name)
     Bundler.with_clean_env do
       cmd = "cd #{stage_dir} && #{self.command}"
-      result = `#{cmd}`
+      puts cmd
+      result = [cmd, `#{cmd}`].join("\n")
+      puts result
+      puts "OMG"
 
       exit_code = $?.to_i
       success = exit_code == 0
