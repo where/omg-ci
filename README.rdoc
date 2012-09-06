@@ -1,5 +1,3 @@
-* TODOs in rake task
-* remove puts statements
 * mail notifications on change
 * add rerun button
 * resque maybe?  how to deal with non-checked in config files?

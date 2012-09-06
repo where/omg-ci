@@ -29,4 +29,11 @@ class ProjectTest < ActiveSupport::TestCase
       proj.destroy
     end
   end
+
+  test "omg_pull_requests" do
+    proj1 = FactoryGirl.create(:project, :omg_pull_request => true)
+    proj2 = FactoryGirl.create(:project, :omg_pull_request => false)
+
+    assert_equal [proj1], Project.omg_pull_request
+  end
 end
