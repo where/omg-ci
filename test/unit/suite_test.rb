@@ -96,4 +96,14 @@ class SuiteTest < ActiveSupport::TestCase
     assert_equal 2.hours, suite.trigger_delta
   end
 
+  test "destorying a suite should remove all suite_runs" do
+    suite = FactoryGirl.create(:suite)
+    suite_run1 = FactoryGirl.create(:suite_run, :suite => suite)
+    suite_run2 = FactoryGirl.create(:suite_run)
+
+    assert_difference ['Suite.count', 'SuiteRun.count'], -1 do
+      suite.destroy
+    end
+  end
+
 end

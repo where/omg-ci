@@ -6,7 +6,7 @@ class Project < ActiveRecord::Base
   before_create :clone
   before_destroy :remove_repo
    
-  has_many :suites
+  has_many :suites, :dependent => :destroy
 
   private
 

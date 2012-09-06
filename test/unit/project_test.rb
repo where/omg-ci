@@ -18,4 +18,15 @@ class ProjectTest < ActiveSupport::TestCase
     FileUtils.expects(:rm_rf).with(Stage.dir('omg')).at_least(1)
     proj.destroy 
   end
+
+
+  test "destroying a project removes all suites associated with it" do
+    proj = FactoryGirl.create(:project)
+    suite1 = FactoryGirl.create(:suite, :project => proj)
+    suite2 = FactoryGirl.create(:suite)
+
+    assert_difference ['Project.count', 'Suite.count'], -1 do
+      proj.destroy
+    end
+  end
 end
