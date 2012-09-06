@@ -1,7 +1,7 @@
 class Suite < ActiveRecord::Base
   belongs_to :project
   has_many :suite_runs, :dependent => :destroy
-  attr_accessible :name, :suite_type, :command, :branch, :trigger, :trigger_length, :trigger_metric
+  attr_accessible :name, :suite_type, :command, :branch, :trigger, :trigger_length, :trigger_metric, :email_notification
 
   TRIGGERS = ['commit', 'time']
   TRIGGER_METRICS = ['hours', 'minutes']

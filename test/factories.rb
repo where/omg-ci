@@ -20,6 +20,7 @@ FactoryGirl.define do
   end
 
   factory :suite_run do
+    association :suite
     status "success"
     sha "omg"
   end

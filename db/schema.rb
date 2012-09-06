@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120906012955) do
+ActiveRecord::Schema.define(:version => 20120906021107) do
 
   create_table "projects", :force => true do |t|
     t.string   "name"
@@ -36,13 +36,14 @@ ActiveRecord::Schema.define(:version => 20120906012955) do
   create_table "suites", :force => true do |t|
     t.string   "name"
     t.integer  "project_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
     t.text     "command"
     t.string   "branch"
     t.string   "trigger"
     t.integer  "trigger_length"
     t.string   "trigger_metric"
+    t.string   "email_notification"
   end
 
   add_index "suites", ["project_id"], :name => "index_suites_on_project_id"

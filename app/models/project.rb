@@ -1,5 +1,5 @@
 class Project < ActiveRecord::Base
-  attr_accessible :name, :git_repo
+  attr_accessible :name, :git_repo, :omg_pull_request
   scope :omg_pull_request, where(:omg_pull_request => true)
 
   validates :name, :presence => true
