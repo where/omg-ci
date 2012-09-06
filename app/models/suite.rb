@@ -20,9 +20,10 @@ class Suite < ActiveRecord::Base
       :status => 'running')
     note = "Running: #{current_sha}"
     tr = run_suite
-    mark_executed!
+    status = tr[:success] ? :success : :failed
+    mark_executed!(status, run)
     notes = [note, tr[:result]].join("\n")
-    run.update_attributes!(:status => tr[:success] ? 'success' : 'failed',
+    run.update_attributes!(:status => status.to_s,
       :result => notes)
   end
 
@@ -37,12 +38,22 @@ class Suite < ActiveRecord::Base
     end
   end
 
-  def mark_executed!
+  def mark_executed!(status, run)
     if commit_trigger?
       Rails.cache.write(cache_key, current_sha)
     else
       Rails.cache.write(cache_key, Time.now)
     end
+
+    if status == :failed && ! last_run_failed?
+      Notification.failure_message(run).deliver
+    end
+
+    Rails.cache.write("LastRun:#{self.id}", status.to_s)
+  end
+
+  def last_run_failed?
+    Rails.cache.fetch("LastRun:#{self.id}") == 'failed'
   end
 
   def cache_key
@@ -65,6 +76,8 @@ class Suite < ActiveRecord::Base
 
     self.trigger_length.to_i.send(self.trigger_metric)
   end
+
+
 
   private
 

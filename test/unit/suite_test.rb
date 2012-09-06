@@ -106,4 +106,26 @@ class SuiteTest < ActiveSupport::TestCase
     end
   end
 
+  test "last run failure" do
+    suite = FactoryGirl.create(:suite)
+    run = FactoryGirl.create(:suite_run)
+    assert ! suite.last_run_failed?
+
+    assert_no_difference 'ActionMailer::Base.deliveries.count' do
+      suite.mark_executed!(:success, run)
+    end
+
+    assert ! suite.last_run_failed?
+
+    assert_difference 'ActionMailer::Base.deliveries.count' do
+      suite.mark_executed!(:failed, run)
+    end
+    assert suite.last_run_failed?
+
+    assert_no_difference 'ActionMailer::Base.deliveries.count' do
+      suite.mark_executed!(:success, run)
+      suite.mark_executed!(:success, run)
+    end
+  end
+
 end
