@@ -120,4 +120,19 @@ class SuitesControllerTest < ActionController::TestCase
       delete :destroy, :id => 'omg'
     end
   end
+
+  test "show not found" do
+    user = FactoryGirl.create(:user)
+    sign_in user
+    get :show, :id => 'omg'
+    assert_response :not_found
+  end
+
+  test "show success" do
+    user = FactoryGirl.create(:user)
+    sign_in user
+    suite = FactoryGirl.create(:suite)
+    get :show, :id => suite.id
+    assert_response :success
+  end
 end

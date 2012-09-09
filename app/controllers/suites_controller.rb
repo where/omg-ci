@@ -1,7 +1,7 @@
 class SuitesController < ApplicationController
   before_filter :authenticate_user!
   before_filter :require_user_role
-  before_filter :require_current_suite, :only => [:edit, :destroy, :update]
+  before_filter :require_current_suite, :only => [:edit, :destroy, :update, :show]
   before_filter :require_current_project, :only => [:new, :create]
  
   def new
@@ -33,6 +33,10 @@ class SuitesController < ApplicationController
   def destroy
     current_suite.destroy
     redirect_to projects_path
+  end
+
+  def show
+    @suite_runs = current_suite.suite_runs.paginate(:page => params[:page])
   end
 
   protected

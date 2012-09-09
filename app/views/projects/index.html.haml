@@ -9,7 +9,7 @@
     - project.suites.each do |suite|
 
       .left
-        %h3= suite.name
+        %h3= link_to suite.name, suite_path(suite), :id => 'header_link'
       .buttons
         = link_to 'Edit', edit_suite_path(suite), :class => 'button minimal'
         = link_to 'Destroy', suite_path(suite), :method => :delete, :class => 'button minimal'

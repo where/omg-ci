@@ -1,0 +1,8 @@
+%h2=current_suite.name
+%h3=current_suite.suite_runs.last.try(:status) || 'pending'
+
+%ul
+  - @suite_runs.each do |run|
+    %li= link_to "#{run.id} - #{run.status}", suite_run_path(run)
+
+= will_paginate @suite_runs

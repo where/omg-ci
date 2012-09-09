@@ -2,5 +2,4 @@
 * make a current status page telling what is being built.
 * store info about pull request runs
 * live updating dashboard
-* add a suite show page with full list of results
 * get the git message to display on the suite_run

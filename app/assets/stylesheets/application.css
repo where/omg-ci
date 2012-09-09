@@ -125,6 +125,10 @@ h3 {
   float:right;
 }
 
+h3 a#header_link {
+  color:black;
+}
+
 a.button.minimal{
   color: black;
 }

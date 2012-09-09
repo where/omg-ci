@@ -175,6 +175,7 @@ GEM
       macaddr (~> 1.0)
     warden (1.1.0)
       rack (>= 1.0)
+    will_paginate (3.0.3)
     xml-simple (1.1.1)
 
 PLATFORMS
@@ -202,3 +203,4 @@ DEPENDENCIES
   timecop
   uglifier (>= 1.0.3)
   uuid
+  will_paginate

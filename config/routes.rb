@@ -4,7 +4,7 @@ OmgCi::Application.routes.draw do
     resources :suites, :only => [:new, :create]
   end
 
-  resources :suites, :only => [:edit, :destroy, :update]
+  resources :suites, :only => [:edit, :destroy, :update, :show]
   resources :suite_runs, :only => [:show]
 
   namespace :admin do
