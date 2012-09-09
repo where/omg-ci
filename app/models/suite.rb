@@ -14,6 +14,7 @@ class Suite < ActiveRecord::Base
   validates :trigger_length, :numericality => {:greater_than => 0}, :allow_blank => true
   validates :trigger_metric, :inclusion => {:in => TRIGGER_METRICS}, :allow_blank => true
   validate :trigger_length_and_metric, :if => :time_trigger?
+  before_save :generate_banners
 
   def execute!
     run = self.suite_runs.create!(:sha => current_sha,
@@ -78,6 +79,23 @@ class Suite < ActiveRecord::Base
     self.trigger_length.to_i.send(self.trigger_metric)
   end
 
+  def banner_image
+    open(self.banner_path, "rb").read
+  end
+
+  def banner_path
+    last_run = self.suite_runs.where(:status => ['success', 'failed']).last
+
+    if last_run.blank? 
+      Rails.root.join("data", "pending.jpg").to_s
+    elsif last_run.success?
+      Rails.root.join("data", "#{self.name}-success.jpg").to_s
+    elsif last_run.failed?
+      Rails.root.join("data", "#{self.name}-failure.jpg").to_s
+    else
+      Rails.root.join("data", "pending.jpg").to_s
+    end
+  end
 
 
   private
@@ -108,6 +126,31 @@ class Suite < ActiveRecord::Base
       exit_code = $?.to_i
       success = exit_code == 0
       return {:success => success, :result => result}
+    end
+  end
+
+  def generate_banners
+    generate_banner("success.jpg", "#{self.name}-success.jpg", self.name, '#00A8C6')
+    generate_banner("failure.jpg", "#{self.name}-failure.jpg", self.name, '#292C37')
+  end
+
+  def generate_banner(base_file, destination_file, title, text_color)
+    final = Magick::Image.from_blob(open(Rails.root.join("data", base_file)).read)
+
+    list = Magick::ImageList.new
+    list << final.first
+
+    text = Magick::Draw.new
+    text.annotate(list, 4, 0, 4, 15, title) do
+      self.pointsize   = 15
+      self.stroke      = 'transparent'
+      self.fill        = text_color
+      self.font_family = "Times-Roman"
+      self.font_weight = Magick::BoldWeight
+    end
+
+    File.open(Rails.root.join("data", destination_file), 'wb') do |f| 
+      f.write(list.to_blob)
     end
   end
 end

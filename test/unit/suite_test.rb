@@ -137,4 +137,15 @@ class SuiteTest < ActiveSupport::TestCase
     end
   end
 
+  test "banner" do
+    suite = FactoryGirl.create(:suite)
+    assert_match /pending/, suite.banner_path
+
+    suite = FactoryGirl.create(:suite_run, :status => 'success').suite
+    assert_match /success/, suite.banner_path
+
+    suite = FactoryGirl.create(:suite_run, :status => 'failed').suite
+    assert_match /failure/, suite.banner_path
+  end
+
 end

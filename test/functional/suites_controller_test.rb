@@ -135,4 +135,12 @@ class SuitesControllerTest < ActionController::TestCase
     get :show, :id => suite.id
     assert_response :success
   end
+
+  test "show jpg" do
+    user = FactoryGirl.create(:user)
+    sign_in user
+    suite = FactoryGirl.create(:suite)
+    get :show, :id => suite.id, :format => :jpg
+    assert_response :success
+  end
 end

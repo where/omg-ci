@@ -1,5 +1,5 @@
 class SuitesController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user_unless_jpeg!
   before_filter :require_user_role
   before_filter :require_current_suite, :only => [:edit, :destroy, :update, :show]
   before_filter :require_current_project, :only => [:new, :create]
@@ -36,7 +36,12 @@ class SuitesController < ApplicationController
   end
 
   def show
-    @suite_runs = current_suite.suite_runs.paginate(:page => params[:page])
+    if request.format.to_sym == :jpeg
+      render :text => current_suite.banner_image, 
+        :content_type => 'jpeg'
+    else
+      @suite_runs = current_suite.suite_runs.paginate(:page => params[:page])
+    end
   end
 
   protected
@@ -56,6 +61,12 @@ class SuitesController < ApplicationController
 
   def require_current_project
     render_not_found unless current_project
+  end
+
+  def authenticate_user_unless_jpeg!
+    unless request.format.to_sym == :jpeg && params[:action].to_sym == :show
+      authenticate_user!
+    end
   end
 
 end

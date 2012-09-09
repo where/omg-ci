@@ -49,3 +49,4 @@ test/omg_pull_request/config.yml
 test/integrations/config.yml
 test/integrations/.stage
 .stage/*
+data/*.jpg

@@ -16,6 +16,7 @@ gem 'omg_pull_request', :path => '../omg_pull_request'
 gem 'pjax_rails'
 gem 'thin'
 gem 'will_paginate'
+gem 'rmagick'
 
 group :test do
   gem 'factory_girl_rails'
