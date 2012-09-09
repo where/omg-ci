@@ -5,28 +5,51 @@
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+<link href='http://fonts.googleapis.com/css?family=Arvo:400,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
+  
 </head>
 <body>
 
-  <%= link_to 'Omg! CI!', root_url, :style => 'float:left; width:100px;' %>
-  <% if current_user %>
-    <% if current_user.admin? %>
-      <div style="float:left;width:500px">
-        <b>Admin Stuff:</b>
-        <%= link_to 'Admin Users', admin_users_path %>
-      </div>
-    <% end %>
-    <div style="float:right;">
-      <%= current_user.email %> <%= link_to 'sign_out', destroy_user_session_path, :method => :delete %>
+  <div id="wrapper">
+    <div id="header">
+      <h1>
+        <%= link_to 'Omg! CI!', root_url %>
+      </h1>
+      <% if current_user %>
+        <div class="sign_in">
+          <div class="email">
+            <%= current_user.email %> 
+          </div>
+          <div class="sign_out">  
+            <%= link_to 'sign_out', destroy_user_session_path, :method => :delete %>
+          </div>
+        </div>
+        <div class="clr"></div>
+      <% else %>
+        <div class="sign_in">
+          <%= link_to 'sign_in', new_user_session_path %>
+        </div>
+      <% end %>
+      <div class="clr"> </div>
     </div>
-    <div style="clear:both;"></div>
-  <% else %>
-    <%= link_to 'sign_in', new_user_session_path %>
-  <% end %>
-  <hr style="clear:both;" />
-  <div data-pjax-container>
-<%= yield %>
-</div>
+    <div data-pjax-container id="container">
+      <%= yield %>
+    </div>
+  </div>
 
+
+  <div id="footer">
+
+    <a href="https://github.com/where/omg-ci">Omg! CI!</a>
+    <%= link_to 'New Project', new_project_path %>
+
+
+
+    <% if current_user.admin? %>
+      <%= link_to 'Admin Users', admin_users_path %>
+    <% end %>
+
+  </div>
 </body>
 </html>

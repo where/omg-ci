@@ -1,10 +1,11 @@
-= link_to 'Projects',  projects_path
-%br
-%br
-
-= current_suite_run.id
-%br
-= current_suite_run.status
+%h3=current_suite_run.suite.project.name
+.clr
+.stats
+  Id:
+  = current_suite_run.id
+  %br
+  Status:
+  = current_suite_run.status
 
 %br
 

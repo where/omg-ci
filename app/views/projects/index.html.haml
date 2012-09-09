@@ -1,22 +1,19 @@
-%ul
 - @projects.each do |project|
-  %li
-    = project.name
-    = link_to 'destroy', project_path(project), :method => :delete
-    = link_to 'new suite', new_project_suite_path(project)
-    %ul
-      - project.suites.each do |suite|
-        %li
-          = suite.name
-          = link_to 'edit', edit_suite_path(suite)
-          = link_to 'destroy', suite_path(suite), :method => :delete
-          %ul
-            - suite.suite_runs.reverse[0, 10].each do |run|
-              %li
-                = link_to "#{run.id} - #{run.status}", suite_run_path(run)
-    
-          
+  %h2= project.name
+  .buttons
+    = link_to 'Destroy', project_path(project), :method => :delete, :class => 'button minimal'
+    = link_to 'New Suite', new_project_suite_path(project), :class => 'button minimal'
+  .clr
+  .sub_section
+    - project.suites.each do |suite|
 
-%br
-%br
-=link_to 'new project', new_project_path
+      %h3= suite.name
+      .buttons
+        = link_to 'Edit', edit_suite_path(suite), :class => 'button minimal'
+        = link_to 'Destroy', suite_path(suite), :method => :delete, :class => 'button minimal'
+      .clr
+      %ul
+        - suite.suite_runs.reverse[0, 10].each do |run|
+          %li
+            = link_to "#{run.id} - #{run.status}", suite_run_path(run)
+
