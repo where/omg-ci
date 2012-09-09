@@ -128,4 +128,13 @@ class SuiteTest < ActiveSupport::TestCase
     end
   end
 
+  test "emails not sent if no emails specified" do
+    suite = FactoryGirl.create(:suite, :email_notification => '')
+    run = FactoryGirl.create(:suite_run)
+
+    assert_no_difference 'ActionMailer::Base.deliveries.count' do
+      suite.mark_executed!(:failed, run)
+    end
+  end
+
 end

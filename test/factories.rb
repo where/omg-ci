@@ -15,6 +15,7 @@ FactoryGirl.define do
     name "omg"
     association :project
     command "echo omg"
+    email_notification "tenderooni@mj.com"
     branch "master"
     trigger 'commit'
   end

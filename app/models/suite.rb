@@ -45,7 +45,8 @@ class Suite < ActiveRecord::Base
       Rails.cache.write(cache_key, Time.now)
     end
 
-    if status == :failed && ! last_run_failed?
+    if status == :failed && ! last_run_failed? &&
+      ! self.email_notification.blank?
       Notification.failure_message(run).deliver
     end
 

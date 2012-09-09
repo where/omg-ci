@@ -1,9 +1,6 @@
 * add rerun button
-* resque maybe?  how to deal with non-checked in config files?
 * make a current status page telling what is being built.
 * store info about pull request runs
-* bootstrap
 * live updating dashboard
-* fix bug where unroled user hits any page
 * add a suite show page with full list of results
 * get the git message to display on the suite_run
