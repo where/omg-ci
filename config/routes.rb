@@ -11,5 +11,7 @@ OmgCi::Application.routes.draw do
     resources :users, :only => [:index, :edit, :update]
   end
 
+  get 'unauthorized', :to => 'static#unauthorized'
+
   root :to => 'projects#index'
 end

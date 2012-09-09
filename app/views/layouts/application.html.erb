@@ -26,10 +26,6 @@
           </div>
         </div>
         <div class="clr"></div>
-      <% else %>
-        <div class="sign_in">
-          <%= link_to 'sign_in', new_user_session_path %>
-        </div>
       <% end %>
       <div class="clr"> </div>
     </div>
@@ -42,11 +38,13 @@
   <div id="footer">
 
     <a href="https://github.com/where/omg-ci">Omg! CI!</a>
-    <%= link_to 'New Project', new_project_path %>
+    <% if current_user && ! current_user.role.blank? %>
+      <%= link_to 'New Project', new_project_path %>
+    <% end %>
 
 
 
-    <% if current_user.admin? %>
+    <% if current_user && current_user.admin? %>
       <%= link_to 'Admin Users', admin_users_path %>
     <% end %>
 

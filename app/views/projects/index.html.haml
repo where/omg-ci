@@ -1,5 +1,6 @@
 - @projects.each do |project|
-  %h2= project.name
+  .left
+    %h2= project.name
   .buttons
     = link_to 'Destroy', project_path(project), :method => :delete, :class => 'button minimal'
     = link_to 'New Suite', new_project_suite_path(project), :class => 'button minimal'
@@ -7,7 +8,8 @@
   .sub_section
     - project.suites.each do |suite|
 
-      %h3= suite.name
+      .left
+        %h3= suite.name
       .buttons
         = link_to 'Edit', edit_suite_path(suite), :class => 'button minimal'
         = link_to 'Destroy', suite_path(suite), :method => :delete, :class => 'button minimal'

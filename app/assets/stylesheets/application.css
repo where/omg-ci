@@ -125,10 +125,6 @@ h3 {
   float:right;
 }
 
-h2, h3 {
-  float:left;
-}
-
 a.button.minimal{
   color: black;
 }
@@ -161,3 +157,6 @@ a.button.minimal{
     box-shadow: inset 0 0 1px 1px #e3e3e3;
     color: #000; }
 
+.left {
+  float:left;
+}

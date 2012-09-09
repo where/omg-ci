@@ -7,6 +7,14 @@ class ApplicationController < ActionController::Base
   end
 
   def require_user_role
-    render_not_found :unauthorized unless current_user.admin? || current_user.user?
+    if json?
+      render_not_found :unauthorized unless current_user.admin? || current_user.user?
+    else
+      redirect_to unauthorized_path unless current_user.admin? || current_user.user?
+    end
+  end
+
+  def json?
+    request.format.to_sym == :json
   end
 end
