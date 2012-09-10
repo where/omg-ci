@@ -1,6 +1,5 @@
 class SuitesController < ApplicationController
   before_filter :authenticate_user_unless_jpeg!
-  before_filter :require_user_role
   before_filter :require_current_suite, :only => [:edit, :destroy, :update, :show]
   before_filter :require_current_project, :only => [:new, :create]
  
@@ -66,6 +65,7 @@ class SuitesController < ApplicationController
   def authenticate_user_unless_jpeg!
     unless request.format.to_sym == :jpeg && params[:action].to_sym == :show
       authenticate_user!
+      require_user_role
     end
   end
 
