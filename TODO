@@ -1,3 +1,4 @@
 * Gracefully recover from errors in runner
 * Add STDERR + STDOUT to errors that are on the main page
 * Document process
+* Upload image to s3 on run completion
