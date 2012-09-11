@@ -1,1 +1,1 @@
-![Status](http://ci.kenmazaika.com/suites/1.jpg)
+![Status](https://ci.kenmazaika.com/suites/1.jpg)
